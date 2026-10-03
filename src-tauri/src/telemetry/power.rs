@@ -485,7 +485,10 @@ pub fn power_headline(battery: &BatteryStatus, apps: &[AppPower]) -> (String, St
         top.name,
         top.share * 100.0,
         top.watts,
-        top.main_component.to_lowercase()
+        match top.main_component.as_str() {
+            "Disk" => "disk",
+            other => other,
+        }
     );
     (headline, summary)
 }
@@ -574,7 +577,7 @@ pub fn build_report(
                 main_component: main.into(),
                 battery_percent_per_hour: battery
                     .full_wh
-                    .filter(|f| *f > 0.0)
+                    .filter(|f| *f > 0.0 && battery.state == "discharging")
                     .map(|full| watts / full * 100.0),
             }
         })
