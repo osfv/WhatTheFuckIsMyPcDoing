@@ -1,6 +1,7 @@
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import {
   ListChecks,
+  BatteryHigh,
   Bell,
   Cpu,
   GearSix,
@@ -23,6 +24,7 @@ const items: { id: PageId; label: string; icon: ComponentType<IconProps> }[] = [
   { id: "network", label: "Network", icon: Network },
   { id: "storage", label: "Storage", icon: HardDrives },
   { id: "hardware", label: "Hardware", icon: Heartbeat },
+  { id: "battery", label: "Battery", icon: BatteryHigh },
   { id: "activity", label: "Activity", icon: ListChecks },
   { id: "alerts", label: "Alerts", icon: Bell },
   { id: "history", label: "History", icon: ClockCounterClockwise },

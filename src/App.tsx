@@ -8,6 +8,7 @@ import { PerformancePage } from "./pages/PerformancePage";
 import { NetworkPage } from "./pages/NetworkPage";
 import { StoragePage } from "./pages/StoragePage";
 import { HardwarePage } from "./pages/HardwarePage";
+import { BatteryPage } from "./pages/BatteryPage";
 import { ActivityPage } from "./pages/ActivityPage";
 import { AlertsPage } from "./pages/AlertsPage";
 import { HistoryPage } from "./pages/HistoryPage";
@@ -26,6 +27,7 @@ const pages: Record<PageId, ComponentType> = {
   network: NetworkPage,
   storage: StoragePage,
   hardware: HardwarePage,
+  battery: BatteryPage,
   activity: ActivityPage,
   alerts: AlertsPage,
   history: HistoryPage,

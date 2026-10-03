@@ -361,3 +361,59 @@ impl Default for AppSettings {
         }
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct BatteryStatus {
+    pub present: bool,
+    pub state: String,
+    pub percent: Option<f32>,
+    pub ac_online: Option<bool>,
+    pub rate_w: Option<f32>,
+    pub time_remaining_sec: Option<u64>,
+    pub time_to_full_sec: Option<u64>,
+    pub remaining_wh: Option<f32>,
+    pub full_wh: Option<f32>,
+    pub design_wh: Option<f32>,
+    pub health_percent: Option<f32>,
+    pub health_label: String,
+    pub cycle_count: Option<u32>,
+    pub name: Option<String>,
+    pub manufacturer: Option<String>,
+    pub headline: String,
+    pub summary: String,
+    pub mocked: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct AppPower {
+    pub key: String,
+    pub name: String,
+    pub pid: u32,
+    pub watts: f32,
+    pub share: f32,
+    pub cpu_w: f32,
+    pub gpu_w: f32,
+    pub disk_w: f32,
+    pub cpu: f32,
+    pub gpu: f32,
+    pub disk_bps: u64,
+    pub main_component: String,
+    pub battery_percent_per_hour: Option<f32>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct PowerReport {
+    pub battery: BatteryStatus,
+    pub apps: Vec<AppPower>,
+    pub headline: String,
+    pub summary: String,
+    pub source: String,
+    pub source_label: String,
+    pub estimated_app_w: f32,
+    pub system_draw_w: Option<f32>,
+    pub other_w: Option<f32>,
+    pub updated_at: i64,
+}

@@ -7,7 +7,7 @@ use crate::error::{save_settings, AppError};
 use crate::storage::Database;
 use crate::telemetry::Collector;
 use crate::types::{
-    AppSettings, HardwareInfo, HistoryPoint, NetConnection, ProcessDetails, Snapshot,
+    AppSettings, HardwareInfo, HistoryPoint, NetConnection, PowerReport, ProcessDetails, Snapshot,
 };
 
 pub struct Inner {
@@ -68,6 +68,11 @@ fn apply_autostart(app: &AppHandle, enabled: bool) -> Result<(), String> {
 #[tauri::command]
 pub fn get_hardware(state: State<AppState>) -> HardwareInfo {
     state.inner.lock().collector.hardware()
+}
+
+#[tauri::command]
+pub fn get_power(state: State<AppState>) -> PowerReport {
+    state.inner.lock().collector.power_report()
 }
 
 #[tauri::command]
