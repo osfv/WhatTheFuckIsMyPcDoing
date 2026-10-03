@@ -100,6 +100,7 @@ pub fn run() {
             ipc::get_settings,
             ipc::save_app_settings,
             ipc::get_hardware,
+            ipc::get_power,
             ipc::get_connections,
             ipc::get_process_details,
             ipc::kill_process,

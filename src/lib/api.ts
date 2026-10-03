@@ -5,6 +5,7 @@ import type {
   HardwareInfo,
   HistoryPoint,
   NetConnection,
+  PowerReport,
   ProcessDetails,
   Snapshot,
   ActivityEvent,
@@ -29,6 +30,10 @@ export async function completeOnboarding(settings: AppSettings): Promise<AppSett
 
 export async function getHardware(): Promise<HardwareInfo> {
   return invoke("get_hardware");
+}
+
+export async function getPower(): Promise<PowerReport> {
+  return invoke("get_power");
 }
 
 export async function getConnections(): Promise<NetConnection[]> {

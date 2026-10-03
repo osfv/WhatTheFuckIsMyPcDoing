@@ -5,6 +5,7 @@ export type PageId =
   | "network"
   | "storage"
   | "hardware"
+  | "battery"
   | "activity"
   | "alerts"
   | "history"
@@ -310,3 +311,53 @@ export const defaultSettings = (): AppSettings => ({
   discordApplicationId: "",
   githubUrl: "",
 });
+
+export interface BatteryStatus {
+  present: boolean;
+  state: "charging" | "discharging" | "full" | "plugged" | "unknown" | "none" | string;
+  percent: number | null;
+  acOnline: boolean | null;
+  rateW: number | null;
+  timeRemainingSec: number | null;
+  timeToFullSec: number | null;
+  remainingWh: number | null;
+  fullWh: number | null;
+  designWh: number | null;
+  healthPercent: number | null;
+  healthLabel: string;
+  cycleCount: number | null;
+  name: string | null;
+  manufacturer: string | null;
+  headline: string;
+  summary: string;
+  mocked: boolean;
+}
+
+export interface AppPower {
+  key: string;
+  name: string;
+  pid: number;
+  watts: number;
+  share: number;
+  cpuW: number;
+  gpuW: number;
+  diskW: number;
+  cpu: number;
+  gpu: number;
+  diskBps: number;
+  mainComponent: string;
+  batteryPercentPerHour: number | null;
+}
+
+export interface PowerReport {
+  battery: BatteryStatus;
+  apps: AppPower[];
+  headline: string;
+  summary: string;
+  source: "calibrated" | "sensors" | "model" | string;
+  sourceLabel: string;
+  estimatedAppW: number;
+  systemDrawW: number | null;
+  otherW: number | null;
+  updatedAt: number;
+}

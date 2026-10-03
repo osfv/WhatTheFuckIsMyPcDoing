@@ -9,6 +9,7 @@ const pages: { id: PageId; label: string; hint: string }[] = [
   { id: "network", label: "Network", hint: "Down, up, sockets" },
   { id: "storage", label: "Storage", hint: "Capacity and disk activity" },
   { id: "hardware", label: "Hardware", hint: "Inventory" },
+  { id: "battery", label: "Battery", hint: "Charge, health, and power per app" },
   { id: "activity", label: "Activity", hint: "What happened" },
   { id: "alerts", label: "Alerts", hint: "Sustained problems" },
   { id: "history", label: "History", hint: "Earlier load" },

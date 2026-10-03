@@ -1,6 +1,7 @@
 pub mod gpu;
 pub mod pdh;
 pub mod peinfo;
+pub mod power;
 pub mod wmi_hw;
 
 use std::collections::{HashMap, HashSet};
@@ -17,6 +18,7 @@ use crate::storage::Database;
 use crate::telemetry::gpu::GpuCollector;
 use crate::telemetry::pdh::{volume_key, DiskPerf, PdhSample, PdhSampler};
 use crate::telemetry::peinfo::enrich_details;
+use crate::telemetry::power::PowerTracker;
 use crate::telemetry::wmi_hw::{start_wmi_thread, WmiSnapshot};
 use crate::types::{
     AppSettings, CpuMetrics, DiskMetrics, HardwareInfo, HistoryPoint, HistoryWindow, HwDevice,
@@ -34,6 +36,7 @@ pub struct Collector {
     wmi_rx: Receiver<WmiSnapshot>,
     wmi: WmiSnapshot,
     pdh: Option<PdhSampler>,
+    power: PowerTracker,
     last_connections: Vec<NetConnection>,
     last_conn_refresh: Instant,
     last_sample_write: Instant,
@@ -70,11 +73,16 @@ impl Collector {
             wmi_rx: start_wmi_thread(),
             wmi: WmiSnapshot::default(),
             pdh: PdhSampler::new(),
+            power: PowerTracker::new(),
             last_connections: Vec::new(),
             last_conn_refresh: Instant::now() - Duration::from_secs(10),
             last_sample_write: Instant::now() - Duration::from_secs(20),
             last_prune: Instant::now(),
         }
+    }
+
+    pub fn power_report(&self) -> crate::types::PowerReport {
+        self.power.report()
     }
 
     pub fn tick(&mut self, settings: &AppSettings, db: &Database) -> Snapshot {
@@ -143,6 +151,8 @@ impl Collector {
         } else {
             Vec::new()
         };
+
+        self.power.update(&processes, &cpu, &gpu);
 
         let disks = if settings.monitor_disk {
             sample_disks(&self.disks, &processes, &pdh, &self.wmi.disk_perf)
